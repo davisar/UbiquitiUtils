@@ -30,6 +30,12 @@ Aug 21 17:19:29 ubnt openvpn[2850]: TLS Error: TLS handshake failed
     1. run the command: `sudo ./UpgradeOpenVPN.sh`
         - this runs the command as the `root` user. This is necessary for the high-privileged operations that are necessary.
         - Note that this command will take a while as there are a lot of packages to install and manage.
+    1. Go get coffee. Or lunch. Seriously. I timed it while testing with most of the packages already installed and it took somwehre between 20 and 25 minutes.
+1. Test your new client:
+    - `sudo openvpn --config /config/openvpn/<your_config_here>`
+1. If you had any configs that were set to autostart via the /config/openvpn folder you may want to reboot the USG.
+    - Option 1: Through the Unifi Portal
+    - Option 1: `sudo reboot`
 
 ## What the script does
 This script verifies that you are running as root and then takes the following (general) actions:
