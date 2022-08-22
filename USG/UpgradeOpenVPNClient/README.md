@@ -9,9 +9,9 @@ The version of the OpenVPN client that comes with the current (as of August 2022
 
 After logging into the USG you can check the version currently running by running `sudo openvpn --version`
 
-## Symptoms and/or Issue Repro
+## Possible Symptoms and/or Issue Repro
 
-### TLS Handshake errors (Unconfirmed)
+### TLS Handshake errors
 
 ```
 Aug 21 17:19:29 ubnt openvpn[2850]: TLS Error: TLS key negotiation failed to occur within 60 seconds (check your network connectivity)
