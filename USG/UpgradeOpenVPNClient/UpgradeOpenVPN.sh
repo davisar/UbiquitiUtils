@@ -3,6 +3,11 @@ if [ "$EUID" -ne 0 ]
     exit
 fi
 
+if openvpn --version | grep -q "OpenVPN 2.4.12";
+    then echo "OpenVPN is already on version 2.4.12"
+    exit
+fi
+
 source="deb http://archive.debian.org/debian/ wheezy main non-free contrib"
 sourcesFile="/etc/apt/sources.list"
 cwd=$(pwd)
