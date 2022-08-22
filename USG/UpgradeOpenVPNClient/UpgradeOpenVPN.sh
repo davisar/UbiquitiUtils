@@ -54,33 +54,33 @@ aptitudeCmds=(
     "aptitude install libpam0g-dev -y"
     "aptitude install libtool -y")
 
-echo "Running aptitude installation tasks"
+echo "$outputTag Running aptitude installation tasks"
 
-# for i in ${!aptitudeCmds[@]}; do
-#     echo "$outputTag Running '${aptitudeCmds[$i]}'"
-#     eval ${aptitudeCmds[$i]}
-# done
+for i in ${!aptitudeCmds[@]}; do
+    echo "$outputTag Running '${aptitudeCmds[$i]}'"
+    eval ${aptitudeCmds[$i]}
+done
 
-# cd /tmp
+cd /tmp
 
-# echo "Getting OpenVPN 2.4.12 from openvpn.org..."
-# wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.12.tar.gz
+echo "$outputTag Getting OpenVPN 2.4.12 from openvpn.org..."
+wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.12.tar.gz
 
-# echo "Extracting OpenVPN 2.4.1 tarball..."
-# tar -xzf openvpn-2.4.12.tar.gz
+echo "$outputTag Extracting OpenVPN 2.4.1 tarball..."
+tar -xzf openvpn-2.4.12.tar.gz
 
-# cd openvpn-2.4.12/
+cd openvpn-2.4.12/
 
-# echo "Configuring OpenVPN options..."
-# ./configure --prefix=/usr
+echo "$outputTag Configuring OpenVPN options..."
+./configure --prefix=/usr
 
-# echo "Make..."
-# make
+echo "$outputTag Make..."
+make
 
-# echo "Make install..."
-# make install
+echo "$outputTag Make install..."
+make install
 
-# echo "Dumping new openvpn version:"
-# openvpn --version
+echo "$outputTag Dumping new openvpn version:"
+openvpn --version
 
-# cd $cwd
+cd $cwd
