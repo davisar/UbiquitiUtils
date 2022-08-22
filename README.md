@@ -15,3 +15,17 @@ In particular, if there's a scenario that seems like it may need to be repeated 
 # Contributions
 This will likely end up as a compedium of things I've encountered - I'm open to contributions, but keep in mind that it is a public repo and others may run it so please make sure you actually put it through the ringer a bit and closely consider the [goals of this repository](#goals). I'm not going to test it for you. If it looks reasonably well written I'll probably accept it on good faith.
 
+# Organization
+Organization is dynamic, but if you're contributing try to keep things organized into the devices that they apply to or some logical format.
+
+Ex:
+```
+/
+    USG/
+        Scenario1/
+        Scenario2/
+        <etc.>
+    CloudKeyGen2/
+    <etc.>
+
+```
