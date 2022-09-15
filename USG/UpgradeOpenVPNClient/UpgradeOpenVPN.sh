@@ -3,8 +3,8 @@ if [ "$EUID" -ne 0 ]
     exit
 fi
 
-if openvpn --version | grep -q "OpenVPN 2.4.12";
-    then echo "OpenVPN is already on version 2.4.12"
+if openvpn --version | grep -q "OpenVPN 2.5.5";
+    then echo "OpenVPN is already on version 2.5.5"
     exit
 fi
 
@@ -29,7 +29,7 @@ fi
 
 # Next we define the set of things that we need to install using apt-get
 
-echo "$outputTag Gathering required binaries in order to compile OpenVPN 2.4.12"
+echo "$outputTag Gathering required binaries in order to compile OpenVPN 2.5.5"
 
 aptGetCmds=("apt-get update"
 "apt-get install wget -y"
@@ -42,7 +42,9 @@ aptGetCmds=("apt-get update"
 "apt-get install locales/wheezy -y"
 "apt-get install sudo/wheezy -y"
 "apt-get install build-essential -y"
-"apt-get install aptitude -y")
+"apt-get install liblzo2-dev -y"
+"apt-get install libpam0g-dev -y"
+)
 
 for i in ${!aptGetCmds[@]}; do
     echo "$outputTag Running '${aptGetCmds[$i]}'"
@@ -51,33 +53,43 @@ done
 
 echo "$outputTag Apt-get Commands Complete"
 
-# The printf statements automate the prompt responses.
-aptitudeCmds=(
-    # Automate responses: no (reject proposed solution), 2 (option 2 - install bin86), remaining prompts "Yes"
-    "printf '%s\n' n 2 Y Y |aptitude install libssl-dev"
-    "aptitude install liblzo2-dev -y"
-    "aptitude install libpam0g-dev -y"
-    "aptitude install libtool -y")
-
-echo "$outputTag Running aptitude installation tasks"
-
-for i in ${!aptitudeCmds[@]}; do
-    echo "$outputTag Running '${aptitudeCmds[$i]}'"
-    eval ${aptitudeCmds[$i]}
-done
-
 cd /tmp
 
-echo "$outputTag Getting OpenVPN 2.4.12 from openvpn.org..."
-wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.12.tar.gz
+echo "$outputTag ########################################"
 
-echo "$outputTag Extracting OpenVPN 2.4.1 tarball..."
-tar -xzf openvpn-2.4.12.tar.gz
+echo "$outputTag Getting libssl 1.1.1m from openssl.org..."
+wget https://www.openssl.org/source/openssl-1.1.1m.tar.gz
 
-cd openvpn-2.4.12/
+echo "$outputTag Extracting libssl 1.1.1m tarball..."
+tar -xzf openssl-1.1.1m.tar.gz
+cd openssl-1.1.1m/
+
+echo "$outputTag Configuring libssl options..."
+./Configure --prefix=/usr linux-mips32
+
+echo "$outputTag Make..."
+make
+
+echo "$outputTag Make test..."
+make test
+
+# TODO: Should check make output and fail install if tests fails. There probably is some return code to check.
+
+echo "$outputTag Make install..."
+make install
+
+echo "$outputTag ########################################"
+
+echo "$outputTag Getting OpenVPN 2.5.5 from openvpn.org..."
+wget https://swupdate.openvpn.org/community/releases/openvpn-2.5.5.tar.gz
+
+echo "$outputTag Extracting OpenVPN 2.5.5 tarball..."
+tar -xzf openvpn-2.5.5.tar.gz
+
+cd openvpn-2.5.5/
 
 echo "$outputTag Configuring OpenVPN options..."
-./configure --prefix=/usr
+./configure --prefix=/usr --disable-plugins
 
 echo "$outputTag Make..."
 make
